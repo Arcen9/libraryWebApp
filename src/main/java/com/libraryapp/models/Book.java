@@ -1,15 +1,33 @@
 package com.libraryapp.models;
 
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "Book")
 public class Book {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "title")
     @NotNull(message = "Title should be fulfilled")
     private String title;
+
+    @Column(name = "author")
     @NotNull(message = "Author should be fulfilled")
     private String author;
+
+    @Column(name = "year")
     @NotNull(message = "Year should be fulfilled")
     private int year;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
 
     public int getId() {
         return id;
@@ -41,5 +59,13 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 }
